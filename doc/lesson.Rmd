@@ -6,9 +6,30 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(vroom)
+library(here)
+library(tidyverse)
+```
+
+## Importing raw data
+
+```{r}
+user_1_info_file <- here("data-raw/mmash/user_1/user_info.csv")
+user_1_info_data <- vroom(user_1_info_file)
 ```
 
 ```{r}
-# Code chunk
+user_1_info_data <- vroom(
+    user_1_info_file,
+    col_select = -1,
+    col_types = cols(
+        gender = col_character(),
+        weight = col_double(),
+        height = col_double(),
+        age = col_double()
+    ),
+    .name_repair = snakecase::to_snake_case
+)
+user_1_info_data
 ```
 
