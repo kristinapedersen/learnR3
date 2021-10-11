@@ -15,9 +15,11 @@ unzip(here("data-raw/MMASH.zip"),
 
 #Remove and tidy up files
 library(fs)
-fs::dir_tree("~/OneDrive - Region Hovedstaden/R programming/LearnR3/data-raw", recurse = 1)
+fs::dir_tree("~/OneDrive - Region Hovedstaden/R programming/LearnR3", recurse = 1)
+
 file_delete(here(c("data-raw/MMASH.zip",
                    "data-raw/SHA256SUMS.txt",
                    "data-raw/LICENSE.txt")))
+
 file_move(here("data-raw/DataPaper"), here("data-raw/mmash"))
 
