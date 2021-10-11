@@ -163,6 +163,31 @@ import_user_info(here("data-raw/mmash/user_1/user_info.csv"))
 import_user_info(here("data-raw/mmash/user_2/user_info.csv"))
 ```
 
+## Exercise for importing the saliva data as a function
+
+```{r}
+#' Import MMASH Saliva data
+#'
+#' @param file_path Path to saliva data
+#'
+#' @return Output a data frame/Tibble
+#' 
+import_saliva_data <- function(file_path) {
+    saliva_data <- vroom(
+        file_path,
+        col_select = -1,
+        col_types = cols(
+            samples = col_character(),
+            cortisol_norm = col_double(),
+            melatonin_norm = col_double()
+        ),
+        .name_repair = snakecase::to_snake_case
+    )
+    return(saliva_data)
+}
+
+import_saliva_data(here("data-raw/mmash/user_1/saliva.csv"))
+```
 
 
 
