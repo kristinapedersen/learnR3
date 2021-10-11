@@ -59,4 +59,66 @@ user_1_saliva_data <- vroom(
 user_1_saliva_data_prep
 ```
 
+## Import larger datasets
+
+```{r}
+user_1_rr_file <- 
+    here("data-raw/mmash/user_1/RR.csv")
+user_1_rr_data_prep <- vroom(
+    user_1_rr_file,
+    col_select = -1,
+    n_max = 100,
+    .name_repair = snakecase::to_snake_case
+)
+spec(user_1_rr_data_prep)
+
+user_1_rr_data <- vroom(
+    user_1_rr_file,
+    col_select = -1,
+    col_types = cols(
+        ibi_s = col_double(),
+        day = col_double(),
+        time = col_time(format = "")  #if time format are giving problems this will help
+    ),
+    
+    .name_repair = snakecase::to_snake_case
+)
+```
+
+## Exercise: Import the Actigraph data
+
+```{r}
+user_1_Actigraph_file <- 
+    here("data-raw/mmash/user_1/Actigraph.csv")
+user_1_Actigraph_data_prep <- vroom(
+    user_1_Actigraph_file,
+    col_select = -1,
+    n_max = 100,
+    .name_repair = snakecase::to_snake_case
+)
+spec(user_1_Actigraph_data_prep)
+
+user_1_Actigraph_data <- vroom(
+    user_1_Actigraph_file,
+    col_select = -1,
+    col_types = cols(
+        axis_1 = col_double(),
+        axis_2 = col_double(),
+        axis_3 = col_double(),
+        steps = col_double(),
+        hr = col_double(),
+        inclinometer_off = col_double(),
+        inclinometer_standing = col_double(),
+        inclinometer_sitting = col_double(),
+        inclinometer_lying = col_double(),
+        vector_magnitude = col_double(),
+        day = col_double(),
+        time = col_time(format = "")
+    ),
+    
+    .name_repair = snakecase::to_snake_case
+)
+```
+
+
 
