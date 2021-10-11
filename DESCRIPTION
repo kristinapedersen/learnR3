@@ -4,5 +4,11 @@ Version: 0.0.1
 Imports:
     knitr,
     rmarkdown,
-    distill
+    distill,
+    vroom,
+    fs,
+    here,
+    snakecase
 Encoding: UTF-8
+Depends: 
+    tidyverse
