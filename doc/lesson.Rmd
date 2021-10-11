@@ -36,7 +36,7 @@ user_1_info_data
 ## Exercise: Import the saliva data
 
 ```{r}
-user_1_saliva_file <- here("data-raw/mmash/user_1/user_info.csv")
+user_1_saliva_file <- here("data-raw/mmash/user_1/saliva.csv")
 user_1_saliva_data_prep <- vroom(
     user_1_saliva_file,
     col_select = -1,
@@ -49,10 +49,9 @@ user_1_saliva_data <- vroom(
     col_select =  -1,
     col_types = cols(
         col_skip(),
-        gender = col_character(),
-        weight = col_double(),
-        height = col_double(),
-        age = col_double()
+        samples = col_character(),
+        cortisol_norm = col_double(),
+        melatonin_norm = col_double()
     ),
     
     .name_repair = snakecase::to_snake_case
