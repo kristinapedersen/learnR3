@@ -91,7 +91,7 @@ import_Actigraph_data <- function(file_path) {
 
 #'Import multiple data frames
 #'
-#' @param file_pattern Path to the user file f.ex. *.csv
+#' @param file_pattern Path to the user file f.ex. *.csv, think about when you are using "" and not
 #' @param import_function Earlier imported data
 #'
 #' @return The combined data table

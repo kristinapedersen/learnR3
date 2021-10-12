@@ -9,7 +9,8 @@ Imports:
     fs,
     here,
     snakecase,
-    purrr
+    purrr,
+    dplyr
 Encoding: UTF-8
 Depends: 
     tidyverse

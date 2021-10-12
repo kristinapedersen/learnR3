@@ -270,7 +270,62 @@ saliva_data_df
 #import multiple data frames
 ```{r}
 
-
 import_multiple_files("saliva.csv", import_saliva_data)
+```
+
+##Data management
+
+```{r}
+#user_info_df %>%
+#    select(where(is.character)) #splitting data
+
+#Use summarize function to calculate mean's
+saliva_data_df %>%
+    summarise(cortisol_mean = mean(cortisol_norm),
+              melatonin_mean = mean(melatonin_norm))
+
+```
+## Using across to summarise our data columns
+
+```{r}
+saliva_data_df %>%
+    summarise(across(c(cortisol_norm, melatonin_norm),
+                     mean))
+
+```
+
+## Named lists
+```{r}
+#Create named list
+list_test <- list(Mean = mean)
+
+#Test name of list
+names(list_test)
+```
+
+##Combine across with a named list, and tidyselect helpers
+
+```{r}
+saliva_data_df %>%
+    summarise(across(where(is.numeric), 
+                     list(Mean = mean, SD = sd)))
+```
+
+## Use the split-appy-combine methodology on the RR data
+
+```{r}
+#Import rr data into data frame 
+
+rr_df <- import_multiple_files("RR.csv", import_RR_data)
+
+# Split and summarise data
+summarised_rr_df <- rr_df %>%
+    group_by(day, file_path_id) %>%
+    summarise(across(ibi_s,
+                     list(Mean = mean,
+                          SD = sd), na.rm = TRUE)) %>%
+    ungroup()
+
+summarised_rr_df
 ```
 
