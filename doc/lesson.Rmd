@@ -152,5 +152,19 @@ import_user_info(here("data-raw/mmash/user_2/user_info.csv"))
 import_saliva_data(here("data-raw/mmash/user_1/saliva.csv"))
 ```
 
+##Exercise for importing the RR data as a function
 
+```{r}
+
+
+import_RR_data(here("data-raw/mmash/user_1/RR.csv"))
+```
+
+##Exercise import Actigraph data
+
+```{r}
+
+
+import_Actigraph_data(here("data-raw/mmash/user_1/Actigraph.csv"))
+```
 
