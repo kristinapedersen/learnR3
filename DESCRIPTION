@@ -8,7 +8,8 @@ Imports:
     vroom,
     fs,
     here,
-    snakecase
+    snakecase,
+    purrr
 Encoding: UTF-8
 Depends: 
     tidyverse
