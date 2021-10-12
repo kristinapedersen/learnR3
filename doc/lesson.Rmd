@@ -311,7 +311,7 @@ saliva_data_df %>%
                      list(Mean = mean, SD = sd)))
 ```
 
-## Use the split-appy-combine methodology on the RR data
+## Use the split-apply-combine methodology on the RR data
 
 ```{r}
 #Import rr data into data frame 
@@ -327,5 +327,22 @@ summarised_rr_df <- rr_df %>%
     ungroup()
 
 summarised_rr_df
+```
+
+##Exercise: Summarise Actigraph
+
+```{r}
+#Import Actigraph data into data frame
+Actigraph_df <- import_multiple_files("Actigraph.csv", import_Actigraph_data)
+
+# Split and summarise data
+summarised_Actigraph_df <- Actigraph_df %>%
+    group_by(file_path_id, day, steps) %>%
+    summarise(across(hr,
+                     list(Mean = mean,
+                          SD = sd), na.rm = TRUE)) %>%
+    ungroup()
+
+summarised_Actigraph_df
 ```
 
