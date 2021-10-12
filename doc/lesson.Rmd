@@ -13,3 +13,17 @@ library(tidyverse)
 source(here("R/functions.R")) #runs all the functions I have make at once
 ```
 
+## Extract user_id:
+
+```{r}
+user_info_df <- import_multiple_files("user_info.csv",
+                                      import_user_info)
+
+user_info_df_2 <- user_info_df %>% 
+    mutate(user_id = str_extract(file_path_id, "user_[1-9][0-9]?")) %>%
+    relocate(file_path_id, user_id) %>%
+    select(-file_path_id)
+
+user_info_df_2
+```
+
