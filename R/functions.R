@@ -89,3 +89,21 @@ import_Actigraph_data <- function(file_path) {
     return(Actigraph_data)
 }
 
+#'Import multiple data frames
+#'
+#' @param file_pattern Path to the user file f.ex. *.csv
+#' @param import_function Earlier imported data
+#'
+#' @return The combined data table
+#'
+import_multiple_files <- function(file_pattern, import_function) {
+    data_files <- fs::dir_ls(here("data-raw/mmash/"),
+                             recurse = TRUE,
+                             regexp = file_pattern)
+
+    combined_data <- purrr::map_dfr(data_files,
+                                    import_function,
+                                    .id = "file_path_id")
+
+    return(combined_data)
+}

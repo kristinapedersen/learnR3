@@ -231,7 +231,6 @@ map(numbers, ~if_else(.x > 5, TRUE, FALSE))
 
 ```{r}
 #Get vector containing all paths
-
 user_info_files <- dir_ls(here("data-raw/mmash"),
                             recurse = TRUE,
                             regexp = "user_info.csv")
@@ -251,4 +250,27 @@ user_info_df <- map_dfr(user_info_files,
 user_info_df
 ```
 
+## Import user info into a data frame for saliva
+
+```{r}
+#Get vector containing all paths
+saliva_data_files <- dir_ls(here("data-raw/mmash"),
+                            recurse = TRUE,
+                            regexp = "saliva.csv")
+
+# Use map to import user info files into a data frame
+saliva_data_df <- map_dfr(saliva_data_files, 
+                        import_saliva_data, 
+                        .id = "file_path_id")
+
+saliva_data_df
+
+```
+
+#import multiple data frames
+```{r}
+
+
+import_multiple_files("saliva.csv", import_saliva_data)
+```
 
