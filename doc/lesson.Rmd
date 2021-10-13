@@ -18,6 +18,13 @@ source(here("R/functions.R")) #runs all the functions I have make at once
 ```{r}
 user_info_df <- import_multiple_files("user_info.csv",
                                       import_user_info)
+saliva_data_df <- import_multiple_files("saliva.csv",
+                                        import_saliva_data)
+rr_df <- import_multiple_files("RR.csv",
+                               import_RR_data)
+
+Actigraph_df <- import_multiple_files("Actigraph.csv",
+                                      import_Actigraph_data)
 
 user_info_df_2 <- user_info_df %>% 
     mutate(user_id = str_extract(file_path_id, "user_[1-9][0-9]?")) %>%
@@ -25,5 +32,29 @@ user_info_df_2 <- user_info_df %>%
     select(-file_path_id)
 
 user_info_df_2
+```
+
+##Exercise: extract_user_id as a function
+
+```{r}
+imported_data <- import_multiple_files("saliva.csv",
+                                        import_saliva_data)
+
+#' Making extract_user_id in to a funciton
+#'
+#' @param imported_data the imported data from the import_multiple_files function
+#'
+#' @return the function to extract user ids
+#'
+extract_user_id <- function(imported_data){
+    extract_id <- imported_data %>% 
+    dplyr::mutate(user_id = stringr::str_extract(file_path_id, "user_[1-9][0-9]?")) %>%
+    dplyr::relocate(file_path_id, user_id) %>%
+    dplyr::select(-file_path_id)
+    
+    return(extract_id)
+}
+
+extract_user_id(saliva_data_df) #right now it just shows it add ?? <- extract_user_id... to save it
 ```
 
