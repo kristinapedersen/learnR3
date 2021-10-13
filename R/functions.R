@@ -103,7 +103,24 @@ import_multiple_files <- function(file_pattern, import_function) {
 
     combined_data <- purrr::map_dfr(data_files,
                                     import_function,
-                                    .id = "file_path_id")
+                                    .id = "file_path_id") %>%
+        extract_user_id()
 
     return(combined_data)
+}
+
+
+#' Making extract_user_id in to a function
+#'
+#' @param imported_data the imported data from the import_multiple_files function
+#'
+#' @return the function to extract user ids
+#'
+extract_user_id <- function(imported_data){
+    extract_id <- imported_data %>%
+        dplyr::mutate(user_id = stringr::str_extract(file_path_id, "user_[1-9][0-9]?")) %>%
+        dplyr::relocate(file_path_id, user_id) %>%
+        dplyr::select(-file_path_id)
+
+    return(extract_id)
 }
