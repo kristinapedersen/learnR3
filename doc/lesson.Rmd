@@ -28,9 +28,65 @@ Actigraph_df <- import_multiple_files("Actigraph.csv",
 
 ```
 
-##extract_user_id as a function
+#add numbers
+```{r}
+add_numbers <- function(num1,num2){
+    added <- num1 + num2
+    return(added)
+}
+```
+
+
+
+##joining data
 
 ```{r}
+full_join(user_info_df, saliva_data_df, by ="user_id")
+```
 
+##Working with reduce
+
+```{r}
+# Split and summarise data
+summarised_Actigraph_df <- Actigraph_df %>%
+  group_by(user_id) %>%
+  summarise(across(hr,
+                   list(Mean = mean,
+                        SD = sd), na.rm = TRUE)) %>%
+  ungroup()
+
+# Split and summarise data
+summarised_rr_df <- rr_df %>%
+  group_by(day, user_id) %>%
+  summarise(across(ibi_s,
+                   list(Mean = mean,
+                        SD = sd), na.rm = TRUE)) %>%
+  ungroup()
+```
+
+
+```{r}
+#Example:
+reduce(list(user_info_df,saliva_data_df, summarised_rr_df), full_join)
+
+
+```
+```{r}
+user_info_df %>%
+    mutate(age_category = case_when(age > 20 ~ "old",
+                                    age <= 20 ~ "young",
+                                    TRUE~"unborn!"
+    ))
+```
+
+```{r}
+saliva_with_data_df <- saliva_data_df %>%
+    mutate(day = case_when(
+        samples == "before sleep" ~ 1, 
+        samples == "wake up" ~ 2,
+        TRUE ~ NA_real_
+    ))
+
+mmash <- reduce(list(user_info_df,saliva_with_data_df, summarised_rr_df, summarised_Actigraph_df), full_join)
 ```
 
