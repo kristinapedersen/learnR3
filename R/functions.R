@@ -124,3 +124,22 @@ extract_user_id <- function(imported_data){
 
     return(extract_id)
 }
+
+#' Covert pivot into function
+#'
+#' @param data The dataset i want to look at
+#'
+#' @return a table of the data of interest
+#'
+tidy_summarise_by_day <- function(data) {
+    daily_summary <- data %>%
+        dplyr::select(-samples) %>%
+        tidyr::pivot_longer(c(-user_id,-day,-gender)) %>%
+        tidyr::drop_na(day, gender) %>%
+        dplyr::group_by(gender, day, name) %>%
+        dplyr::summarise(across(value, list(Mean = mean, SD = sd), na.rm = TRUE)) %>%
+        dplyr::ungroup() %>%
+        tidyr::pivot_wider(names_from = day,
+                           values_from = starts_with("value"))
+    return(daily_summary)
+}

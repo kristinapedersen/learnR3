@@ -20,8 +20,16 @@ load(here("data/mmash.rda"))
 mmash %>%
     select(-samples) %>%
     pivot_longer(c(-user_id, -day, -gender)) %>%
+    drop_na(day,gender) %>%
     group_by(gender, day, name) %>%
     summarise(across(value, list(Mean = mean, SD = sd), na.rm = TRUE)) %>%
-    ungroup()
+    ungroup() %>%
+    pivot_wider(names_from = day,
+                values_from = starts_with("value"))
+```
+
+```{r}
+
+tidy_summarise_by_day(mmash)
 ```
 
