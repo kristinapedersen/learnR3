@@ -28,7 +28,7 @@ Actigraph_df <- import_multiple_files("Actigraph.csv",
 
 ```
 
-##Exercise: extract_user_id as a function
+##extract_user_id as a function
 
 ```{r}
 

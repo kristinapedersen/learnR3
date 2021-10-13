@@ -38,16 +38,16 @@ Actigraph_df <- import_multiple_files("Actigraph.csv",
 
 # Split and summarise data
 summarised_Actigraph_df <- Actigraph_df %>%
-    group_by(file_path_id, day, steps) %>%
-    summarise(across(hr,
-                     list(Mean = mean,
-                          SD = sd), na.rm = TRUE)) %>%
-    ungroup()
+  group_by(user_id, day, steps) %>%
+  summarise(across(hr,
+                   list(Mean = mean,
+                        SD = sd), na.rm = TRUE)) %>%
+  ungroup()
 
 # Split and summarise data
 summarised_rr_df <- rr_df %>%
-    group_by(day, file_path_id) %>%
-    summarise(across(ibi_s,
-                     list(Mean = mean,
-                          SD = sd), na.rm = TRUE)) %>%
-    ungroup()
+  group_by(day, user_id) %>%
+  summarise(across(ibi_s,
+                   list(Mean = mean,
+                        SD = sd), na.rm = TRUE)) %>%
+  ungroup()
