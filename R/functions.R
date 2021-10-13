@@ -131,14 +131,19 @@ extract_user_id <- function(imported_data){
 #'
 #' @return a table of the data of interest
 #'
-tidy_summarise_by_day <- function(data) {
+tidy_summarise_by_day <- function(data, summary_fn) {
     daily_summary <- data %>%
         dplyr::select(-samples) %>%
         tidyr::pivot_longer(c(-user_id,-day,-gender)) %>%
         tidyr::drop_na(day, gender) %>%
         dplyr::group_by(gender, day, name) %>%
-        dplyr::summarise(across(value, list(Mean = mean, SD = sd), na.rm = TRUE)) %>%
+        dplyr::summarise(dplyr::across(value, summary_fn, na.rm = TRUE)) %>%
         dplyr::ungroup() %>%
+        dplyr::mutate(dplyr::across(
+            dplyr::starts_with("value"),
+            round,
+            digits=2
+        )) %>%
         tidyr::pivot_wider(names_from = day,
                            values_from = starts_with("value"))
     return(daily_summary)

@@ -14,22 +14,17 @@ source(here("R/functions.R")) #runs all the functions I have make at once
 load(here("data/mmash.rda"))
 ```
 
-## Pivotting longer
+## Pivotting
 
-```{r}
-mmash %>%
-    select(-samples) %>%
-    pivot_longer(c(-user_id, -day, -gender)) %>%
-    drop_na(day,gender) %>%
-    group_by(gender, day, name) %>%
-    summarise(across(value, list(Mean = mean, SD = sd), na.rm = TRUE)) %>%
-    ungroup() %>%
-    pivot_wider(names_from = day,
-                values_from = starts_with("value"))
-```
-
-```{r}
-
-tidy_summarise_by_day(mmash)
+```{r echo=FALSE}
+mmash %>% tidy_summarise_by_day(mean) %>%
+    rename("Day 1" = "1", "Day 2" = "2",
+           Variable = name) %>%
+    select(-gender) %>%
+    mutate(Variable = Variable %>%
+               str_replace_all("_", " ") %>%
+               snakecase::to_title_case()
+               ) %>%
+    knitr::kable(caption = "Summary statistics by day")
 ```
 
